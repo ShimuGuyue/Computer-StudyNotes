@@ -23,7 +23,7 @@ Dijkstra 算法基于**贪心策略**和**松弛操作**。
 时间复杂度为 $O(n ^ 2)$。
 
 ```c++
-vector<int> Dijkstra(const vector<vector<int>> &grid, const int start)
+vector<int> dijkstra(const vector<vector<int>> &grid, const int start)
 {
     int n = grid.size();
     vector<int> min_lens(n, INT_MAX);
@@ -75,7 +75,7 @@ vector<int> Dijkstra(const vector<vector<int>> &grid, const int start)
 时间复杂度为 $O((n + m)\log m)$
 
 ```c++
-vector<int> Dijkstra(const vector<vector<pair<int, int>>> &grid, const int start)
+vector<int> dijkstra(const vector<vector<pair<int, int>>> &grid, const int start)
 {
     int n = grid.size();
     vector<int> min_lens(n, INT_MAX);
