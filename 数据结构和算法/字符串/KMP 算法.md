@@ -84,7 +84,7 @@ $S$ 的 border 的 border 也是 $S$ 的 border。
 
 # next 数组
 
-`next[i]` 表示 `preffix[i]` 的非平凡最大 border。
+`next[i]` 表示 `preffix[i]` 的非平凡最大 border。至于为什么叫做 next 数组，详见[KMP 算法](# KMP 算法)原理。
 
 求解 `next[i]` 时，遍历 `preffix[i]` 的所有 border，即 `next[i-1], next[next[i-1]], ..., 0`，检查后一个字符是否等于 `S[i]`，如果等于，则 `next[i]` 为当前所检查的 border 加 $1$。
 
@@ -173,6 +173,47 @@ int kmp(string &s, string &t)
 	}
 	// 匹配失败返回 -1
 	return -1;
+}
+```
+
+如果需要找出所有匹配的字串位置，只需每次找到完全匹配的字串之后，类比匹配失败的情况，将 $j$ 指针转移到`nexts[j] + 1` （不是转移到 `nexts[j-1] + 1` 因为当前位置时匹配成功的）位置继续下一轮匹配即可。
+
+```c++
+vector<int> kmp(string &s, string &t)
+{
+	vector<int> indexs;
+	vector<int> nexts = buildNexts(t);
+
+	int n = s.length();
+	int m = t.length();
+	int i = 0, j = 0;
+	while (i < n)
+	{
+		if (s[i] == t[j])
+		{
+			++i;
+            ++j;
+			// 模式串完全匹配则记录子串起始位置，跳转 j 指针
+			if (j == m)
+			{
+				indexs.push_back(i - m);
+				j = nexts[j-1];
+			}
+			else
+			{
+				++j;
+			}
+		}
+		else
+		{
+			if (j != 0)
+				j = nexts[j-1];
+			else
+				++i;
+		}
+	}
+	// 返回所有字串起始下标
+	return indexs;
 }
 ```
 
