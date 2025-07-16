@@ -148,7 +148,7 @@ int kmp(string &s, string &t)
 	int n = s.length();
 	int m = t.length();
 	int i = 0, j = 0;
-	while (i < n && j < m)
+	while (i < n)
 	{
 		// 当前位置匹配成功，尝试匹配下个位置
 		if (s[i] == t[j])
