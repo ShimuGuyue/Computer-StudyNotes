@@ -192,7 +192,7 @@ vector<int> kmp(string &s, string &t)
 		if (s[i] == t[j])
 		{
 			++i;
-            ++j;
+			++j;
 			// 模式串完全匹配则记录子串起始位置，跳转 j 指针
 			if (j == m)
 			{
