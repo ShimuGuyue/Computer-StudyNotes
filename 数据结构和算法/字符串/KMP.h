@@ -82,10 +82,6 @@ vector<int> kmp(string &s, string &t)
 				indexs.push_back(i - m);
 				j = nexts[j-1];
 			}
-			else
-			{
-				++j;
-			}
 		}
 		else
 		{
