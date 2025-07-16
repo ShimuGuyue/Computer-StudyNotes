@@ -11,7 +11,9 @@ using std::greater;
 /**
  * 朴素版 Dijkstra
  */
-vector<int> Dijkstra1(const vector<vector<int>> &grid, const int start)
+namespace dijkstra_simple
+{
+vector<int> dijkstra(const vector<vector<int>> &grid, const int start)
 {
     int n = grid.size();
     vector<int> min_lens(n, INT_MAX);
@@ -50,11 +52,14 @@ vector<int> Dijkstra1(const vector<vector<int>> &grid, const int start)
     }
     return min_lens;
 }
+}
 
 /**
  * 堆优化版 Dijkstra
  */
-vector<int> Dijkstra2(const vector<vector<pair<int, int>>> &grid, const int start)
+namespace dijkstra_heap
+{
+vector<int> dijkstra(const vector<vector<pair<int, int>>> &grid, const int start)
 {
     int n = grid.size();
     vector<int> min_lens(n, INT_MAX);
@@ -85,4 +90,5 @@ vector<int> Dijkstra2(const vector<vector<pair<int, int>>> &grid, const int star
         }
     }
     return min_lens;
+}
 }
