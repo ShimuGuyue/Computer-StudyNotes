@@ -1,6 +1,8 @@
 #include <vector>
 using std::vector;
 
+namespace disjoint_set
+{
 class DisjointSet
 {
 private:
@@ -21,15 +23,15 @@ public:
 		}
 	}
 
-	int Find(int x)
+	int find(int x)
 	{
-		return (nodes[x].parent == x) ? x : (nodes[x].parent = Find(nodes[x].parent));
+		return (nodes[x].parent == x) ? x : (nodes[x].parent = find(nodes[x].parent));
 	}
 
-	void Merge(const int x, const int y)
+	void merge(const int x, const int y)
 	{
-		int setX = Find(x);
-		int setY = Find(y);
+		int setX = find(x);
+		int setY = find(y);
 		if (nodes[setX].rank < nodes[setY].rank)
 		{
 			nodes[setX].parent = setY;
@@ -42,3 +44,4 @@ public:
 		}
 	}
 };
+}
