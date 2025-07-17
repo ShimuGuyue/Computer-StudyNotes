@@ -14,5 +14,6 @@ Computer-StudyNotes/
         │       └── 最短路径/
         │               └── Dijkstra
         └── 字符串/
-                └── KMP
+                ├── KMP
+                └── 字符串Hash
 ```
