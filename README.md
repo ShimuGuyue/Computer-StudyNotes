@@ -15,7 +15,8 @@ Computer-StudyNotes/
 │       │                └── Dijkstra
 │       └── 字符串/
 │                ├── KMP
-│                └── 字符串Hash
+│                ├── 字符串Hash
+│                └── Trie树
 └── MySQL/
          ├── 连接服务
          ├── 数据类型
