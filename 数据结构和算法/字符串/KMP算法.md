@@ -89,11 +89,11 @@ $S$ 的 border 的 border 也是 $S$ 的 border。
 求解 `next[i]` 时，遍历 `preffix[i]` 的所有 border，即 `next[i-1], next[next[i-1]], ..., 0`，检查后一个字符是否等于 `S[i]`，如果等于，则 `next[i]` 为当前所检查的 border 加 $1$。
 
 ```c++
-vector<int> buildNexts(const string &s)
+vector<size_t> buildNexts(const string &s)
 {
-    const int n = s.length();
-    vector<int> nexts(n);
-    for (int i = 1; i < n; ++i)
+    const size_t n = s.length();
+    vector<size_t> nexts(n);
+    for (size_t i = 1; i < n; ++i)
     {
         nexts[i] = nexts[i-1];
         while (nexts[i] > 0 && s[i] != s[nexts[i]])
@@ -142,28 +142,28 @@ KMP 算法中，使用两个指针 $i, j$ 分别表示主串和模式串当前�
 >当 $i = 6, j = 6$ 的位置匹配失败时，由于串 `aabaa` 的最大 border 为 `aa`，已知主串的 $i-1$ 位置之前的 `aa` 和模式串 $S[1, \dots , j-1]$ 的后缀 `aa` 成功匹配，则这段主串和模式串的前缀 `aa` 也可成功匹配，而当前 $i$ 指针位于 `aa` 的后一个位置，因此将 $j$ 指针移动到模式串的前缀 `aa` 的下一个位置即 `nexts[j-1] + 1` 进行下一轮匹配，跳过前边已知一定可以匹配成功的部分，尝试在下个位置继续匹配。
 
 ```c++
-int kmp(string &s, string &t)
+uint32_t kmp(const string &s, const string &t)
 {
 	// 建立模式串的 next 数组
-	vector<int> nexts = buildNexts(t);
+	vector<size_t> nexts = buildNexts(t);
 
-	int n = s.length();
-	int m = t.length();
-	int i = 0, j = 0;
+	const size_t n = s.length();
+	const size_t m = t.length();
+	size_t i = 0, j = 0;
 	while (i < n)
 	{
-		// 当前位置匹配成功，尝试匹配下个位置
 		if (s[i] == t[j])
 		{
+			// 当前位置匹配成功，尝试匹配下个位置
 			++i;
 			++j;
 			// 模式串匹配完成，返回主串中匹配到的起始位置
 			if (j == m)
 				return i - m;
 		}
-		// 匹配不成功则跳转 j 指针
 		else
 		{
+			// 匹配不成功则跳转 j 指针
 			if (j != 0)
 				j = nexts[j-1];
 			// 如果第一个字符都不匹配，只需将 i 指针移动到下一处即可
@@ -176,17 +176,17 @@ int kmp(string &s, string &t)
 }
 ```
 
-如果需要找出所有匹配的字串位置，只需每次找到完全匹配的字串之后，类比匹配失败的情况，将 $j$ 指针转移到`nexts[j] + 1` （不是转移到 `nexts[j-1] + 1` 因为当前位置时匹配成功的）位置继续下一轮匹配即可。
+如果需要找出所有匹配的字串位置，只需每次找到完全匹配的字串之后，类比匹配失败的情况，将 $j$ 指针转移到`nexts[j] + 1` （不是转移到 `nexts[j-1] + 1` 因为当前位置是匹配成功的）的位置继续下一轮匹配即可。
 
 ```c++
-vector<int> kmp(string &s, string &t)
+vector<size_t> kmp(const string &s, const string &t)
 {
-	vector<int> indexs;
-	vector<int> nexts = buildNexts(t);
+	vector<size_t> indexs;
+	vector<size_t> nexts = buildNexts(t);
 
-	int n = s.length();
-	int m = t.length();
-	int i = 0, j = 0;
+	const size_t n = s.length();
+	const size_t m = t.length();
+	size_t i = 0, j = 0;
 	while (i < n)
 	{
 		if (s[i] == t[j])
@@ -197,6 +197,7 @@ vector<int> kmp(string &s, string &t)
 			if (j == m)
 			{
 				indexs.push_back(i - m);
+                // 由于前边 ++j 操作，需将 j 指针回调
 				j = nexts[j-1];
 			}
 		}
@@ -211,5 +212,97 @@ vector<int> kmp(string &s, string &t)
 	// 返回所有字串起始下标
 	return indexs;
 }
+```
+
+# 模板
+
+```c++
+class KMP
+{
+private:
+	string pattern{};
+	vector<size_t> nexts{};
+
+public:
+	KMP()
+	{}
+	KMP(const string &s)
+	{
+		build(s);
+	}
+
+public:
+	void build(const string &s)
+	{
+		pattern = s;
+		const size_t n = s.length();
+		nexts.assign(n, 0);
+		for (size_t i = 1; i < n; ++i)
+		{
+			nexts[i] = nexts[i - 1];
+			while (nexts[i] > 0 && s[nexts[i]] != s[i])
+			{
+				nexts[i] = nexts[nexts[i] - 1];
+			}
+			if (s[nexts[i]] == s[i])
+				++nexts[i];
+		}
+	}
+
+	int32_t find(const string &text)
+	{
+		const size_t n = text.length();
+		const size_t m = pattern.length();
+		size_t i = 0, j = 0;
+		while (i < n)
+		{
+			if (text[i] == pattern[j])
+			{
+				++i;
+				++j;
+				if (j == m)
+					return i - m;
+			}
+			else
+			{
+				if (j != 0)
+					j = nexts[j - 1];
+				else
+					++i;
+			}
+		}
+		return -1;
+	}
+
+	vector<size_t> find_all(const string &text)
+	{
+		vector<size_t> indexs;
+
+		const size_t n = text.length();
+		const size_t m = pattern.length();
+		size_t i = 0, j = 0;
+		while (i < n)
+		{
+			if (text[i] == pattern[j])
+			{
+				++i;
+				++j;
+				if (j == m)
+				{
+					indexs.push_back(i - m);
+					j = nexts[j - 1];
+				}
+			}
+			else
+			{
+				if (j != 0)
+					j = nexts[j - 1];
+				else
+					++i;
+			}
+		}
+		return indexs;
+	}
+};
 ```
 
