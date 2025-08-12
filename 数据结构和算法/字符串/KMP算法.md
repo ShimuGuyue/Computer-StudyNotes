@@ -91,19 +91,19 @@ $S$ 的 border 的 border 也是 $S$ 的 border。
 ```c++
 vector<size_t> buildNexts(const string &s)
 {
-    const size_t n = s.length();
-    vector<size_t> nexts(n);
-    for (size_t i = 1; i < n; ++i)
-    {
-        nexts[i] = nexts[i-1];
-        while (nexts[i] > 0 && s[i] != s[nexts[i]])
-        {
-            nexts[i] = nexts[nexts[i] - 1];
-        }
-        if (s[i] == s[nexts[i]])
-            ++nexts[i];
-    }
-    return nexts;
+	const size_t n = s.length();
+	vector<size_t> nexts(n);
+	for (size_t i = 1; i < n; ++i)
+	{
+		nexts[i] = nexts[i-1];
+		while (nexts[i] > 0 && s[i] != s[nexts[i]])
+		{
+			nexts[i] = nexts[nexts[i] - 1];
+		}
+		if (s[i] == s[nexts[i]])
+			++nexts[i];
+	}
+	return nexts;
 }
 ```
 
@@ -197,7 +197,7 @@ vector<size_t> kmp(const string &s, const string &t)
 			if (j == m)
 			{
 				indexs.push_back(i - m);
-                // 由于前边 ++j 操作，需将 j 指针回调
+				// 由于前边 ++j 操作，需将 j 指针回调
 				j = nexts[j-1];
 			}
 		}
