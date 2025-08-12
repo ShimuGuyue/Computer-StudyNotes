@@ -25,7 +25,7 @@ $$
 
 # 字串 Hash
 
-> 笔记和代码中字符串下标均从 $1$ 开始。
+> 笔记中字符串下标均从 $1$ 开始，代码中字符串下标从 $0$ 开始。
 
 $$
 H(S[l, r]) = \sum_{i = l} ^ r (S[i] \cdot base ^ {i - l + 1}) \% Mod
@@ -50,10 +50,11 @@ $$
 所以只需要求出每个前缀的 Hash 值 $F(i)$，就可以快速求出字串的 Hash 值。
 
 ```c++
-vector<uint64_t> bulidPreHashs(string &s, uint64_t base, uint64_t mod)
+vector<uint64_t> bulidPreHashs(const string &s, const uint64_t base, const uint64_t mod)
 {
 	const size_t n = s.length();
 	vector<uint64_t> pre_hashs(n);
+	pre_hashs[0] = static_cast<uint64_t>(s[0])
 	for (size_t i = 1; i < n; ++i)
 	{
 		pre_hashs[i] = (pre_hashs[i - 1] + s[i] * pow(base, i) % mod) % mod;
@@ -63,9 +64,99 @@ vector<uint64_t> bulidPreHashs(string &s, uint64_t base, uint64_t mod)
 ```
 
 ```c++
-uint64_t getHash(string &s, size_t l, size_t r, uint64_t base, uint64_t mod, vector<uint64_t> &pre_hashs)
+uint64_t getHash(const vector<uint64_t> &pre_hashs, const size_t l, const size_t r, const uint64_t base, const uint64_t mod)
 {
 	return (pre_hashs[r] - pre_hashs[l - 1] + mod) % mod * inv(pow(base, l - 1), mod) % mod;
 }
+```
+
+> 若仅判断两子串是否相等，可以不用求出两串的具体 Hash 值，只需将位置靠前的子串的前缀哈希值乘上相应的倍数，检测与靠后的子串前缀 Hash 值是否相等即可（见模板），以避免繁琐的求逆元操作。
+
+# 模板
+
+```c++
+class StringHash
+{
+private:
+	uint64_t mod{};
+	uint64_t base{};
+	uint64_t inv_base{};
+	string str{};
+	vector<uint64_t> pows{};
+	vector<uint64_t> invs{};
+	vector<uint64_t> pre_hashs{};
+
+private:
+	uint64_t quickPow(uint64_t base, uint64_t n)
+	{
+		uint64_t ans = 1;
+		while (n)
+		{
+			if (n & UINT64_C(1))
+				ans = ans * base % mod;
+			base = base * base % mod;
+			n >>= 1;
+		}
+		return ans;
+	}
+
+public:
+	StringHash(const string &s, const uint64_t mod = UINT64_C(1000000007), const uint64_t base = 131)
+	{
+		buildPreHashs(s, mod, base);
+	}
+
+	void buildPreHashs(const string &s, const uint64_t mod, const uint64_t base)
+	{
+		// this->str = s;
+		this->mod = mod;
+		this->base = base;
+		this->inv_base = quickPow(base, mod - 2);
+
+		const size_t n = str.length();
+
+		pows.assign(n, 0);
+		invs.assign(n, 0);
+		pre_hashs.assign(n, 0);
+		pows[0] = 1;
+		invs[0] = 1;
+		pre_hashs[0] = static_cast<uint8_t>(str[0]) * pows[0] % mod;
+
+		for (size_t i = 1; i < n; ++i)
+		{
+			pows[i] = pows[i - 1] * base % mod;
+			invs[i] = invs[i - 1] * inv_base % mod;
+			pre_hashs[i] = (pre_hashs[i - 1] + static_cast<uint8_t>(str[i]) * pows[i] % mod) % mod;
+		}
+	}
+
+	uint64_t getHash(const size_t l, const size_t r)
+	{
+		if (l == 0)
+			return pre_hashs[r];
+		return (pre_hashs[r] - pre_hashs[l - 1] + mod) % mod * invs[l] % mod;
+	}
+
+	bool equals(size_t l1, size_t r1, size_t l2, size_t r2)
+	{
+		if (r1 - l1 != r2 - l2)
+			return false;
+		if (l1 > l2)
+		{
+			swap(l1, l2);
+			swap(r1, r2);
+		}
+
+		uint64_t h1 = pre_hashs[r1];
+		uint64_t h2 = pre_hashs[r2];
+		if (l1 > 0)
+			h1 = (h1 - pre_hashs[l1 - 1] + mod) % mod;
+		if (l2 > 0)
+			h2 = (h2 - pre_hashs[l2 - 1] + mod) % mod;
+
+		uint64_t dif = pows[l2 - l1];
+		return h1 * dif % mod == h2;
+	}
+};
 ```
 
