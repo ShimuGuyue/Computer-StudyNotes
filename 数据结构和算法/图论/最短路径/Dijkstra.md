@@ -23,20 +23,20 @@ Dijkstra 算法基于**贪心策略**和**松弛操作**。
 时间复杂度为 $O(n ^ 2)$。
 
 ```c++
-vector<int> dijkstra(const vector<vector<int>> &grid, const int start)
+vector<uint32_t> dijkstra(const vector<vector<uint32_t>> &grid, const size_t start)
 {
-	int n = grid.size();
-	vector<int> min_lens(n, INT_MAX);
+	size_t n = grid.size();
+	vector<uint32_t> min_lens(n, INT_MAX);
 	vector<bool> visited(n, false);
 	min_lens[start] = 0;
 	visited[start] = true;
 
 	// 由于起点最短路径已经确定，实际上外层循环可以少跑一次
-	for (int i = 0; i < n; ++i)
+	for (size_t i = 0; i < n; ++i)
 	{
-		int min = INT_MAX;
-		int node = -1;
-		for (int v = 0; v < n; ++v)
+		uint32_t min = INT_MAX;
+		size_t node = -1;
+		for (size_t v = 0; v < n; ++v)
 		{
 			// 已经确定最短路径的节点不会再做更新
 			if (visited[v])
@@ -53,7 +53,7 @@ vector<int> dijkstra(const vector<vector<int>> &grid, const int start)
 		// 将找到的节点标记为已找到最短路径
 		visited[node] = true;
 		// 根据新找到节点的最短路径更新其相邻点的最短路径
-		for (int v = 0; v < n; ++v)
+		for (size_t v = 0; v < n; ++v)
 		{
 			if (visited[v] || grid[node][v] == INT_MAX)
 				continue;
@@ -75,15 +75,15 @@ vector<int> dijkstra(const vector<vector<int>> &grid, const int start)
 时间复杂度为 $O((n + m)\log m)$
 
 ```c++
-vector<int> dijkstra(const vector<vector<pair<int, int>>> &grid, const int start)
+vector<uint32_t> dijkstra(const vector<vector<pair<uint32_t, size_t>>> &grid, const size_t start)
 {
-	int n = grid.size();
-	vector<int> min_lens(n, INT_MAX);
+	size_t n = grid.size();
+	vector<uint32_t> min_lens(n, INT_MAX);
 	vector<bool> visited(n, false);
 	min_lens[start] = 0;
 
-	// 堆中 pair<int, int> 的 first 和 second 分别存储 len 和 node，在小根堆中按 len 排序
-	priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> h;
+	// 堆中 pair 的 first 和 second 分别存储 len 和 node，在小根堆中按 len 排序
+	priority_queue<pair<uint32_t, size_t>, vector<pair<uint32_t, size_t>>, greater<pair<uint32_t, size_t>>> h;
 	h.push({0, start});
 	while (!h.empty())
 	{
@@ -108,4 +108,3 @@ vector<int> dijkstra(const vector<vector<pair<int, int>>> &grid, const int start
 	return min_lens;
 }
 ```
-
