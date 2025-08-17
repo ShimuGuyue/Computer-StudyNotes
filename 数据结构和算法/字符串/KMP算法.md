@@ -249,7 +249,7 @@ public:
 		}
 	}
 
-	int32_t find(const string &text)
+	int32_t match(const string &text)
 	{
 		const size_t n = text.length();
 		const size_t m = pattern.length();
@@ -274,7 +274,7 @@ public:
 		return -1;
 	}
 
-	vector<size_t> find_all(const string &text)
+	vector<size_t> match_all(const string &text)
 	{
 		vector<size_t> indexs;
 
