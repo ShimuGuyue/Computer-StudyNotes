@@ -167,7 +167,7 @@ public:
 	}
 
 public:
-void insert(const string &s)
+	void insert(const string &s)
 	{
 		Node* node = root;
 		++root->count_pass;
@@ -362,6 +362,5 @@ public:
 		--tree[node].count_end;
 	}
 };
-	ssad
 ```
 
