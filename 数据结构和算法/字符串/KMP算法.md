@@ -214,6 +214,8 @@ vector<size_t> kmp(const string &s, const string &t)
 }
 ```
 
+---
+
 # 模板
 
 ```c++
