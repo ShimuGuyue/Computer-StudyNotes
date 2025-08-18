@@ -14,7 +14,7 @@ Dijkstra 算法基于**贪心策略**和**松弛操作**。
 
 # Dijkstra
 
-## 一、朴素版 Dijkstra
+## 朴素版 Dijkstra
 
 在朴素版 Dijkstra 中，每次**遍历所有点**，找到当前最短路径最短的点。
 
@@ -64,9 +64,7 @@ vector<uint32_t> dijkstra(const vector<vector<uint32_t>> &grid, const size_t sta
 }
 ```
 
----
-
-## 二、堆优化版 Dijkstra
+## 堆优化版 Dijkstra
 
 在堆优化版的 Dijkstra 中，用一个小根堆维护所有未确定最短路径的点的当前最短路径，直接取堆顶找到所求的点。
 
