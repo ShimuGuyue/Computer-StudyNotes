@@ -130,6 +130,8 @@ void erase(const string &s)
 }
 ```
 
+---
+
 # 模板
 
 ## 指针版
