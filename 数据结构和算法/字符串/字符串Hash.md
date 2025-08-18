@@ -72,6 +72,8 @@ uint64_t getHash(const vector<uint64_t> &pre_hashs, const size_t l, const size_t
 
 > 若仅判断两子串是否相等，可以不用求出两串的具体 Hash 值，只需将位置靠前的子串的前缀哈希值乘上相应的倍数，检测与靠后的子串前缀 Hash 值是否相等即可（见模板），以避免繁琐的求逆元操作。
 
+---
+
 # 模板
 
 ```c++
