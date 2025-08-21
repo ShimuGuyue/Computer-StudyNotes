@@ -16,7 +16,8 @@ Computer-StudyNotes/
 │       └── 字符串/
 │                ├── KMP
 │                ├── 字符串Hash
-│                └── Trie树
+│                ├── Trie树
+│                └── AC自动机
 └── MySQL/
          ├── 连接服务
          ├── 数据类型
