@@ -366,3 +366,9 @@ public:
 };
 ```
 
+---
+
+# 例题
+
+[洛谷T565718 Trie字符串统计](https://www.luogu.com.cn/problem/T565718)
+
