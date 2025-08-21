@@ -308,3 +308,9 @@ public:
 };
 ```
 
+---
+
+# 例题
+
+[洛谷P3375 【模板】KMP](https://www.luogu.com.cn/problem/P3375)
+
