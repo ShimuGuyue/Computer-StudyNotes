@@ -14,10 +14,11 @@ Computer-StudyNotes/
 │       │       └── 最短路径/
 │       │                └── Dijkstra
 │       └── 字符串/
-│                ├── KMP
 │                ├── 字符串Hash
+│                ├── KMP
 │                ├── Trie树
-│                └── AC自动机
+│                ├── AC自动机
+│                └── Manacher
 └── MySQL/
          ├── 连接服务
          ├── 数据类型
