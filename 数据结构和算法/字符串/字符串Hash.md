@@ -50,12 +50,12 @@ $$
 所以只需要求出每个前缀的 Hash 值 $F(i)$，就可以快速求出字串的 Hash 值。
 
 ```c++
-vector<uint64_t> bulidPreHashs(const string &s, const uint64_t base, const uint64_t mod)
+vector<int64_t> bulidPreHashs(const string &s, const int64_t base, const int64_t mod)
 {
-	const size_t n = s.length();
-	vector<uint64_t> pre_hashs(n);
-	pre_hashs[0] = static_cast<uint64_t>(s[0])
-	for (size_t i = 1; i < n; ++i)
+	const int n = s.length();
+	vector<int64_t> pre_hashs(n);
+	pre_hashs[0] = static_cast<int64_t>(s[0])
+	for (int i = 1; i < n; ++i)
 	{
 		pre_hashs[i] = (pre_hashs[i - 1] + s[i] * pow(base, i) % mod) % mod;
 	}
@@ -64,7 +64,7 @@ vector<uint64_t> bulidPreHashs(const string &s, const uint64_t base, const uint6
 ```
 
 ```c++
-uint64_t getHash(const vector<uint64_t> &pre_hashs, const size_t l, const size_t r, const uint64_t base, const uint64_t mod)
+int64_t getHash(const vector<int64_t> &pre_hashs, const int l, const int r, const int64_t base, const int64_t mod)
 {
 	return (pre_hashs[r] - pre_hashs[l - 1] + mod) % mod * inv(pow(base, l - 1), mod) % mod;
 }
@@ -80,18 +80,18 @@ uint64_t getHash(const vector<uint64_t> &pre_hashs, const size_t l, const size_t
 class StringHash
 {
 private:
-	uint64_t mod{};
-	uint64_t base{};
-	uint64_t inv_base{};
+	int64_t mod{};
+	int64_t base{};
+	int64_t inv_base{};
 	string str{};
-	vector<uint64_t> pows{};
-	vector<uint64_t> invs{};
-	vector<uint64_t> pre_hashs{};
+	vector<int64_t> pows{};
+	vector<int64_t> invs{};
+	vector<int64_t> pre_hashs{};
 
 private:
-	uint64_t quickPow(uint64_t base, uint64_t n)
+	int64_t quickPow(int64_t base, int64_t n)
 	{
-		uint64_t ans = 1;
+		int64_t ans = 1;
 		while (n)
 		{
 			if (n & UINT64_C(1))
@@ -103,19 +103,19 @@ private:
 	}
 
 public:
-	StringHash(const string &s, const uint64_t mod = UINT64_C(1000000007), const uint64_t base = 131)
+	StringHash(const string &s, const int64_t mod = INT64_C(1000000007), const int64_t base = 131)
 	{
 		buildPreHashs(s, mod, base);
 	}
 
-	void buildPreHashs(const string &s, const uint64_t mod, const uint64_t base)
+	void buildPreHashs(const string &s, const int64_t mod, const int64_t base)
 	{
 		// this->str = s;
 		this->mod = mod;
 		this->base = base;
 		this->inv_base = quickPow(base, mod - 2);
 
-		const size_t n = str.length();
+		const int n = str.length();
 
 		pows.assign(n, 0);
 		invs.assign(n, 0);
@@ -124,7 +124,7 @@ public:
 		invs[0] = 1;
 		pre_hashs[0] = static_cast<uint8_t>(str[0]) * pows[0] % mod;
 
-		for (size_t i = 1; i < n; ++i)
+		for (int i = 1; i < n; ++i)
 		{
 			pows[i] = pows[i - 1] * base % mod;
 			invs[i] = invs[i - 1] * inv_base % mod;
@@ -132,14 +132,14 @@ public:
 		}
 	}
 
-	uint64_t getHash(const size_t l, const size_t r)
+	int64_t getHash(const int l, const int r)
 	{
 		if (l == 0)
 			return pre_hashs[r];
 		return (pre_hashs[r] - pre_hashs[l - 1] + mod) % mod * invs[l] % mod;
 	}
 
-	bool equals(size_t l1, size_t r1, size_t l2, size_t r2)
+	bool equals(int l1, int r1, int l2, int r2)
 	{
 		if (r1 - l1 != r2 - l2)
 			return false;
@@ -149,14 +149,14 @@ public:
 			swap(r1, r2);
 		}
 
-		uint64_t h1 = pre_hashs[r1];
-		uint64_t h2 = pre_hashs[r2];
+		int64_t h1 = pre_hashs[r1];
+		int64_t h2 = pre_hashs[r2];
 		if (l1 > 0)
 			h1 = (h1 - pre_hashs[l1 - 1] + mod) % mod;
 		if (l2 > 0)
 			h2 = (h2 - pre_hashs[l2 - 1] + mod) % mod;
 
-		uint64_t dif = pows[l2 - l1];
+		int64_t dif = pows[l2 - l1];
 		return h1 * dif % mod == h2;
 	}
 };
