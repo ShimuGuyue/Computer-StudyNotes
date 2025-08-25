@@ -312,5 +312,5 @@ public:
 
 # 例题
 
-[P3375 【模板】KMP - 洛谷](https://www.luogu.com.cn/problem/P3375)
+[P3375 【模板】KMP - 洛谷](https://www.luogu.com.cn/problem/P3375)（模板）
 
