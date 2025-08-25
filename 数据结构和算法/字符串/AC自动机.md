@@ -516,9 +516,9 @@ public:
 
 # 例题
 
-[P3808 AC 自动机（简单版） - 洛谷](https://www.luogu.com.cn/problem/P3808)
+[P3808 AC 自动机（简单版） - 洛谷](https://www.luogu.com.cn/problem/P3808)（模板）
 
-[P3796 AC 自动机（简单版 II） - 洛谷](https://www.luogu.com.cn/problem/P3796)
+[P3796 AC 自动机（简单版 II） - 洛谷](https://www.luogu.com.cn/problem/P3796)（模板 - Trie 图）
 
-[P5357 【模板】AC 自动机 - 洛谷](https://www.luogu.com.cn/problem/P5357)
+[P5357 【模板】AC 自动机 - 洛谷](https://www.luogu.com.cn/problem/P5357)（模板 - 拓扑优化）
 
