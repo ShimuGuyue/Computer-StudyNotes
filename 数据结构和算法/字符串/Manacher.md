@@ -100,5 +100,5 @@ vector<int> manacher(const string &s)
 
 # 例题
 
-[P3805 【模板】manacher - 洛谷](https://www.luogu.com.cn/problem/P3805)
+[P3805 【模板】manacher - 洛谷](https://www.luogu.com.cn/problem/P3805)（模板）
 
