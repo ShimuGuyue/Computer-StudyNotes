@@ -370,5 +370,5 @@ public:
 
 # 例题
 
-[T565718 Trie字符串统计 - 洛谷](https://www.luogu.com.cn/problem/T565718)
+[T565718 Trie字符串统计 - 洛谷](https://www.luogu.com.cn/problem/T565718)（模板）
 
