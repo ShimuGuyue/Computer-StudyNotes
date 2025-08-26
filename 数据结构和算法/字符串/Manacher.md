@@ -102,3 +102,5 @@ vector<int> manacher(const string &s)
 
 [P3805 【模板】manacher - 洛谷](https://www.luogu.com.cn/problem/P3805)（模板）
 
+[P4555 [国家集训队] 最长双回文串 - 洛谷](https://www.luogu.com.cn/problem/P4555)（不饱和回文串）
+
