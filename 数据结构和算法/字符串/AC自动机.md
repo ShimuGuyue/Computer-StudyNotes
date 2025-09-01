@@ -411,7 +411,7 @@ private:
 	vector<pair<string, int>> dictionary{};	// 所有字典串及其编号集合
 
 public:
-	ACAM() : tree(1)
+	ACAM() : tree{1}
 	{}
 
 public:
