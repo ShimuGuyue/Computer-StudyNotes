@@ -83,7 +83,6 @@ private:
 	int64_t mod{};
 	int64_t base{};
 	int64_t inv_base{};
-	string str{};
 	vector<int64_t> pows{};
 	vector<int64_t> invs{};
 	vector<int64_t> pre_hashs{};
@@ -103,6 +102,8 @@ private:
 	}
 
 public:
+	StringHash()
+	{}
 	StringHash(const string &s, const int64_t mod = INT64_C(1000000007), const int64_t base = 131)
 	{
 		buildPreHashs(s, mod, base);
@@ -110,25 +111,23 @@ public:
 
 	void buildPreHashs(const string &s, const int64_t mod, const int64_t base)
 	{
-		// this->str = s;
 		this->mod = mod;
 		this->base = base;
 		this->inv_base = quickPow(base, mod - 2);
 
-		const int n = str.length();
-
+		const int n = s.length();
 		pows.assign(n, 0);
 		invs.assign(n, 0);
 		pre_hashs.assign(n, 0);
 		pows[0] = 1;
 		invs[0] = 1;
-		pre_hashs[0] = static_cast<uint8_t>(str[0]) * pows[0] % mod;
+		pre_hashs[0] = int(str[0]) * pows[0] % mod;
 
 		for (int i = 1; i < n; ++i)
 		{
 			pows[i] = pows[i - 1] * base % mod;
 			invs[i] = invs[i - 1] * inv_base % mod;
-			pre_hashs[i] = (pre_hashs[i - 1] + static_cast<uint8_t>(str[i]) * pows[i] % mod) % mod;
+			pre_hashs[i] = (pre_hashs[i - 1] + int(str[i]) * pows[i] % mod) % mod;
 		}
 	}
 
