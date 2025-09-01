@@ -50,7 +50,7 @@ void turn(string &s)
 ```c++
 vector<int> manacher(const string &s)
 {
-	int n = s.size();
+	const int n = s.size();
 	int l = -1, r = -1, p = -1;
 	vector<int> lens(n);
 	for (int i = 0; i < n; ++i)
