@@ -251,7 +251,7 @@ public:
 		}
 	}
 
-	int32_t match(const string &text)
+	int match(const string &text)
 	{
 		const int n = text.length();
 		const int m = pattern.length();
@@ -276,7 +276,7 @@ public:
 		return -1;
 	}
 
-	vector<int> match_all(const string &text)
+	vector<int> matchAll(const string &text)
 	{
 		vector<int> indexs;
 
