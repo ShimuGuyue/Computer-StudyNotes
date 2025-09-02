@@ -26,7 +26,7 @@
 void turn(string &s)
 {
 	string temp = "#";
-	for (const char c : s)
+	for (char c : s)
 	{
 		temp += c;
 		temp += '#';
@@ -48,9 +48,9 @@ void turn(string &s)
 当 $l_j <= l$ 时，$len_i$ 首先根据 $P$ 的回文性继承 $len_j$ 在 $P$ 内部的长度，然后继续向两侧暴力拓展，求得回文半径 $len_i$。
 
 ```c++
-vector<int> manacher(const string &s)
+vector<int> manacher(string &s)
 {
-	const int n = s.size();
+	int n = s.size();
 	int l = -1, r = -1, p = -1;
 	vector<int> lens(n);
 	for (int i = 0; i < n; ++i)
