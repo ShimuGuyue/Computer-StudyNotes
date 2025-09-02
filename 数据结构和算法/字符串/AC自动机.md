@@ -48,11 +48,11 @@ void buildFail()
 	// 逐层建立各节点的 fail 指针
 	while (!q.empty())
 	{
-		const Node* node = q.front();
+		Node* node = q.front();
 		q.pop();
 		for (int index = 0; index < 26; ++index)
 		{
-			const Node* next = node->nexts[index];
+			Node* next = node->nexts[index];
 			if (next == nullptr)
 				continue;
 			// 不断回退确定 fail 指针指向
@@ -75,13 +75,13 @@ void buildFail()
 进行多模式匹配时，每当匹配失败，则当前节点跳转到对应的 `fail` 指针处继续匹配，如果某个位置是字符串的结束位置，则累加匹配成功的字典串个数。
 
 ```c++
-int match(const string& text)
+int match(string& text)
 {
 	int ans = 0;
 	Node* node = root;
-	for (const char c : text)
+	for (char c : text)
 	{
-		const int index = c - 'a';
+		int index = c - 'a';
 		// 匹配失败时延 fail 链跳转指针
 		while (node->nexts[index] == nullptr && node != root)
 		{
@@ -103,9 +103,9 @@ vector<int> match(const string &text)
 {
 	vector<int> ans(dictionary.size());
 	Node* node = root;
-	for (const char c : text)
+	for (char c : text)
 	{
-		const int index = c - 'a';
+		int index = c - 'a';
 		while (node->nexts[index] == nullptr && node != root)
 		{
 			node = node->fail;
@@ -174,13 +174,13 @@ void buildFail()
 ```
 
 ```c++
-int match(const string &text)
+int match(string &text)
 {
 	int ans = 0;
 	Node* node = root;
-	for (const char c : text)
+	for (char c : text)
 	{
-		const int index = c - 'a';
+		int index = c - 'a';
 		// 根据 Trie 图直接跳转，无需分类讨论
 		node = node->nexts[index];
 		ans += node->count_end;
@@ -198,13 +198,13 @@ int match(const string &text)
 ```c++
 void buildFail()
 {
-	/* 以上 fail 链构建代码 */
+	/* 以上省略 fail 链构建代码 */
 	
 	/* 根据 fail 链建图 */
 	// 预先用一个数组保存所有节点 vector<Node*> tree;
 	// 使用每个节点的 fail 指针表示拓扑图上的孩子节点即可
 	count_topofathers.resize(tree.size());	// 使用一个全局数组记录每个节点在拓扑图上的父节点数量
-	for (const Node* &node : tree)
+	for (Node* &node : tree)
 	{
 		++count_topofathers[node->fail->id];
 	}
@@ -212,14 +212,14 @@ void buildFail()
 ```
 
 ```c++
-vector<int> matchEach(const string &text)
+vector<int> matchEach(string &text)
 {
 	vector<int> count_passs(tree.size());	// 统计各节点匹配次数
 
 	Node* node = root;
-	for (const char c : text)
+	for (char c : text)
 	{
-		const int index = c - 'a';
+		int index = c - 'a';
 		node = node->nexts[index];
 		++count_passs[node->id];	// Node 额外记录每个节点的树上编号
 	}
@@ -227,17 +227,17 @@ vector<int> matchEach(const string &text)
 	vector<int> counts(dictionary.size());
 	vector<int> count_fathers = count_topofathers;	// 操作副本，原图可反复使用
 	/* 拓扑排序累计匹配次数 */
-	queue<const Node*> q;
-	for (const Node* &node : tree)
+	queue<Node*> q;
+	for (Node* &node : tree)
 	{
 		if (count_fathers[node->id] == 0)
 			q.push(node);
 	}
 	while (!q.empty())
 	{
-		const Node* n = q.front();
+		Node* n = q.front();
 		q.pop();
-		for (const int id : n->end_ids)
+		for (int id : n->end_ids)
 		{	// 记录各字符串匹配次数
 			counts[id] = count_passs[n->id];
 		}
@@ -287,12 +287,12 @@ public:
 	}
 
 public:
-	void insert(const string &s)
+	void insert(string &s)
 	{
 		Node* node = root;
-		for (const char c : s)
+		for (char c : s)
 		{
-			const int index = c - 'a';
+			int index = c - 'a';
 			if (node->nexts[index] == nullptr)
 			{
 				node->nexts[index] = new Node;
@@ -351,13 +351,13 @@ public:
 		}
 	}
 
-	vector<int> matchEach(const string &text)
+	vector<int> matchEach(string &text)
 	{
 		vector<int> count_matchs(tree.size());	// 树上节点匹配次数
 		Node* node = root;
-		for (const char c : text)
+		for (char c : text)
 		{
-			const int index = c - 'a';
+			int index = c - 'a';
 			node = node->nexts[index];
 			++count_matchs[node->treeid];
 		}
@@ -372,9 +372,9 @@ public:
 		}
 		while (!q.empty())
 		{
-			const Node* n = q.front();
+			Node* n = q.front();
 			q.pop();
-			for (const int id : n->endids)
+			for (int id : n->endids)
 			{
 				counts[id] = count_matchs[n->treeid];
 			}
@@ -385,7 +385,7 @@ public:
 		return counts;
 	}
 
-	int matchAll(const string &text)
+	int matchAll(string &text)
 	{
 		vector<int> counts = matchEach(text);
 		return accumulate(counts.begin(), counts.end(), 0);
@@ -415,12 +415,12 @@ public:
 	{}
 
 public:
-	void insert(const string &s)
+	void insert(string &s)
 	{
 		int node = 0;
-		for (const char c : s)
+		for (char c : s)
 		{
-			const int index = c - 'a';
+			int index = c - 'a';
 			if (tree[node].nexts[index] == 0)
 			{
 				tree[node].nexts[index] = tree.size();
@@ -445,11 +445,11 @@ public:
 		}
 		while (!q.empty())
 		{
-			const int node = q.front();
+			int node = q.front();
 			q.pop();
 			for (int index = 0; index < 26; ++index)
 			{
-				const int next = tree[node].nexts[index];
+				int next = tree[node].nexts[index];
 				if (next != 0)
 				{
 					tree[next].fail = tree[tree[node].fail].nexts[index];
@@ -464,19 +464,19 @@ public:
 
 		/* topo */
 		topo_countfathers.assign(tree.size(), 0);
-		for (const Node &node : tree)
+		for (Node &node : tree)
 		{
 			++topo_countfathers[node.fail];
 		}
 	}
 
-	vector<int> matchEach(const string &text)
+	vector<int> matchEach(string &text)
 	{
 		vector<int> count_matchs(tree.size());	// 树上节点匹配次数
 		int node = 0;
-		for (const char c : text)
+		for (char c : text)
 		{
-			const int index = c - 'a';
+			int index = c - 'a';
 			node = tree[node].nexts[index];
 			++count_matchs[node];
 		}
@@ -491,9 +491,9 @@ public:
 		}
 		while (!q.empty())
 		{
-			const int n = q.front();
+			int n = q.front();
 			q.pop();
-			for (const int id : tree[n].endids)
+			for (int id : tree[n].endids)
 			{
 				counts[id] = count_matchs[n];
 			}
@@ -504,7 +504,7 @@ public:
 		return counts;
 	}
 
-	int matchAll(const string &text)
+	int matchAll(string &text)
 	{
 		vector<int> counts = matchEach(text);
 		return accumulate(counts.begin(), counts.end(), 0);
