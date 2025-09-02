@@ -35,11 +35,11 @@ Trie()
 插入字符串时需要遍历字符串的所有字符，从 Trie 树的根节点开始，逐层次拓展树上的节点并为每个节点的经过标记加一，最后在字符串结尾时，在对应的树上节点处加上一个结束标记。
 
 ```c++
-void insert(const string &s)
+void insert(string &s)
 {
 	Node* node = root;
 	++root->count_pass;
-	for (const char c : s)
+	for (char c : s)
 	{
 		int index = c - 'a';
 		if (node->nexts[index] == nullptr)	// 没有边时建立新边
@@ -56,10 +56,10 @@ void insert(const string &s)
 检索某个字符串在 Trie 树上的出现次数，同样便利字符串的所有字符，从树的根节点开始，逐层次确认是否存在对应的边，如果某条对应的边不存在，则说明不存在该字符串。最后返回字符串结尾处对应的树上节点处的结束标记个数，即为该字符串的出现次数。
 
 ```c++
-int count(const string &s)
+int count(string &s)
 {
 	Node* node = root;
-	for (const char c : s)
+	for (char c : s)
 	{
 		int index = c - 'a';
 		if (node->count_pass == 0 || node->nexts[index] == nullptr)	// 不存在该字符串
@@ -75,10 +75,10 @@ int count(const string &s)
 检查以某个字符串为前缀的字符串总数，只需找到该字符串结尾对应的树上节点，返回该节点的 $count\_pass$ 变量即可。若要找出具体的所有字符串，则从该节点开始向下 $dfs$，每到达一个结束标记记录一个字符串即可。
 
 ```c++
-int countPre(const string &s)
+int countPre(string &s)
 {
 	Node* node = root;
-	for (const char c : s)
+	for (char c : s)
 
 	{
 		int index = c - 'a';
@@ -113,13 +113,13 @@ int countPre(const string &s)
 从 Trie 树上删除字符串时，先找到对应字符串结尾处对应的书上节点（不存在直接结束），将该节点处的结束标记减去 $1$，然后从该节点一路向上删除节点，知道遇到某个节点的终止标记数量不为 $0$ 或者到达根节点。
 
 ```c++
-void erase(const string &s)
+void erase(string &s)
 {
 	if (count(s) == 0)	// 首先保证字符串存在
 		return;
 	Node* node = root;
 	--root->count_pass;
-	for (const char c : s)
+	for (char c : s)
 	{
 		int index = c - 'a';
 		node = node->nexts[index];
@@ -154,9 +154,9 @@ public:
 	{}
 	~Trie()
 	{
-		auto clear = [](auto &&clear, const Node* node) -> void
+		auto clear = [](auto &&clear, Node* node) -> void
 		{
-			for (const Node* next : node->nexts)
+			for (Node* next : node->nexts)
 			{
 				if (next != nullptr)
 					clear(clear, next);
@@ -167,11 +167,11 @@ public:
 	}
 
 public:
-	void insert(const string &s)
+	void insert(string &s)
 	{
 		Node* node = root;
 		++root->count_pass;
-		for (const char c : s)
+		for (char c : s)
 		{
 			int index = c - 'a';
 			if (node->nexts[index] == nullptr)
@@ -182,10 +182,10 @@ public:
 		++node->count_end;
 	}
 
-	int count(const string &s)
+	int count(string &s)
 	{
 		Node* node = root;
-		for (const char c : s)
+		for (char c : s)
 		{
 			int index = c - 'a';
 			if (node->nexts[index] == nullptr || node->nexts[index]->count_pass == 0)
@@ -195,7 +195,7 @@ public:
 		return node->count_end;
 	}
 
-	int countPre(const string &s)
+	int countPre(string &s)
 	{
 		Node* node = root;
 		for (const char c : s)
@@ -226,14 +226,14 @@ public:
 		// return ans;
 	}
 
-	void erase(const string &s)
+	void erase(string &s)
 	{
 		if (count(s) == 0)
 			return;
 		Node* node = root;
 		--root->count_pass;
 		// 此代码仅删除标记而未实际删除节点，便于节点的重复利用，避免重复 new 和 delete 的时间开销
-		for (const char c : s)
+		for (char c : s)
 		{
 			int index = c - 'a';
 			node = node->nexts[index];
@@ -243,7 +243,7 @@ public:
 		// 此代码实际删除节点，减少无用节点的内存占用
 		// vector<Node*> nodes{root};
 		// vector<int> indexs{};
-		// for (const char c : s)
+		// for (char c : s)
 		// {
 		//	 int index = c - 'a';
 		//	 node = node->nexts[index];
@@ -284,11 +284,11 @@ public:
 	{}
 
 public:
-	void insert(const string &s)
+	void insert(string &s)
 	{
 		int node = 0;
 		++tree[0].count_pass;
-		for (const char c : s)
+		for (char c : s)
 		{
 			int index = c - 'a';
 			if (tree[node].nexts[index] == 0)
@@ -302,10 +302,10 @@ public:
 		++tree[node].count_end;
 	}
 
-	int count(const string &s)
+	int count(string &s)
 	{
 		int node = 0;
-		for (const char c : s)
+		for (char c : s)
 		{
 			int index = c - 'a';
 			if (tree[node].nexts[index] == 0 || tree[tree[node].nexts[index]].count_pass == 0)
@@ -315,10 +315,10 @@ public:
 		return tree[node].count_end;
 	}
 
-	int countPre(const string &s)
+	int countPre(string &s)
 	{
 		int node = 0;
-		for (const char c : s)
+		for (char c : s)
 		{
 			int index = c - 'a';
 			if (tree[node].nexts[index] == 0 || tree[tree[node].nexts[index]].count_pass == 0)
@@ -346,7 +346,7 @@ public:
 		// return ans;
 	}
 
-	void erase(const string &s)
+	void erase(string &s)
 	{
 		if (count(s) == 0)
 			return;
