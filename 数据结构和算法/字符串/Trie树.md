@@ -280,7 +280,7 @@ private:
 	vector<Node> tree;	// 用动态数组模拟指针节点
 
 public:
-	Trie() : tree{1}	// 0 号节点作为根节点
+	Trie() : tree(1)	// 0 号节点作为根节点
 	{}
 
 public:
