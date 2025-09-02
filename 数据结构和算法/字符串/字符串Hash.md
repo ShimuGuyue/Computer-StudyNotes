@@ -121,13 +121,13 @@ public:
 		pre_hashs.assign(n, 0);
 		pows[0] = 1;
 		invs[0] = 1;
-		pre_hashs[0] = int(str[0]) * pows[0] % mod;
+		pre_hashs[0] = int(s[0]) * pows[0] % mod;
 
 		for (int i = 1; i < n; ++i)
 		{
 			pows[i] = pows[i - 1] * base % mod;
 			invs[i] = invs[i - 1] * inv_base % mod;
-			pre_hashs[i] = (pre_hashs[i - 1] + int(str[i]) * pows[i] % mod) % mod;
+			pre_hashs[i] = (pre_hashs[i - 1] + int(s[i]) * pows[i] % mod) % mod;
 		}
 	}
 
