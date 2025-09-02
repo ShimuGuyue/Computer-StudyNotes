@@ -50,9 +50,9 @@ $$
 所以只需要求出每个前缀的 Hash 值 $F(i)$，就可以快速求出字串的 Hash 值。
 
 ```c++
-vector<int64_t> bulidPreHashs(const string &s, const int64_t base, const int64_t mod)
+vector<int64_t> bulidPreHashs(string &s, int64_t base, int64_t mod)
 {
-	const int n = s.length();
+	int n = s.length();
 	vector<int64_t> pre_hashs(n);
 	pre_hashs[0] = static_cast<int64_t>(s[0])
 	for (int i = 1; i < n; ++i)
@@ -64,7 +64,7 @@ vector<int64_t> bulidPreHashs(const string &s, const int64_t base, const int64_t
 ```
 
 ```c++
-int64_t getHash(const vector<int64_t> &pre_hashs, const int l, const int r, const int64_t base, const int64_t mod)
+int64_t getHash(vector<int64_t> &pre_hashs, int l, int r, int64_t base, int64_t mod)
 {
 	return (pre_hashs[r] - pre_hashs[l - 1] + mod) % mod * inv(pow(base, l - 1), mod) % mod;
 }
@@ -93,7 +93,7 @@ private:
 		int64_t ans = 1;
 		while (n)
 		{
-			if (n & UINT64_C(1))
+			if (n & INT64_C(1))
 				ans = ans * base % mod;
 			base = base * base % mod;
 			n >>= 1;
@@ -104,12 +104,12 @@ private:
 public:
 	StringHash()
 	{}
-	StringHash(const string &s, const int64_t mod = INT64_C(1000000007), const int64_t base = 131)
+	StringHash(string &s, int64_t mod = INT64_C(1000000007), int64_t base = 131)
 	{
 		buildPreHashs(s, mod, base);
 	}
 
-	void buildPreHashs(const string &s, const int64_t mod, const int64_t base)
+	void buildPreHashs(string &s, int64_t mod, int64_t base)
 	{
 		this->mod = mod;
 		this->base = base;
@@ -131,7 +131,7 @@ public:
 		}
 	}
 
-	int64_t getHash(const int l, const int r)
+	int64_t getHash(int l, int r)
 	{
 		if (l == 0)
 			return pre_hashs[r];
