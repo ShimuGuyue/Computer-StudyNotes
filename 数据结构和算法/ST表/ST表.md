@@ -71,16 +71,16 @@ public:
 	
 private:
 	// 此函数规定贡献方式
-	T merge(const T a, const T b)
+	T merge(T a, T b)
 	{
 		return std::max(a, b);
 	}
 
 public:
-	void build(const vector<T> &v)
+	void build(vector<T> &v)
 	{
-		const int n = v.size();
-		const int m = log2(n) + 1;
+		int n = v.size();
+		int m = log2(n) + 1;
 		st.assign(n, vector<T>(m));
 
 		for (int i = 0; i < n; ++i)
@@ -97,7 +97,7 @@ public:
 		}
 	}
 	
-	T query(const int l, const int r)
+	T query(int l, int r)
 	{
 		int power = log2(r - l + 1);
 		int len = 1 << power;
